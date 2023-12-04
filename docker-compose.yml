@@ -1,0 +1,33 @@
+version: '3'
+services:
+  user-management-service.irembo:
+    build: .
+    container_name: user-management-service.irembo
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${APP_PORT}:8000"
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app
+    depends_on:
+      - user-management-service-db.irembo
+    networks:
+      - irembo-docker-network
+  user-management-service-db.irembo:
+    image: postgres:13.2
+    restart: always
+    environment:
+      - POSTGRES_USER=${DATABASES_USER}
+      - POSTGRES_PASSWORD=${DATABASES_PASSWORD}
+      - POSTGRES_DB=${DATABASES_NAME}
+      - TZ=Africa/Kigali
+    ports:
+      - "${DATABASES_PORT}:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - irembo-docker-network
+networks:
+  irembo-docker-network:
+    driver: bridge
