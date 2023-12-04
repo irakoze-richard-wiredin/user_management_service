@@ -4,7 +4,7 @@ services:
     build: .
     container_name: user-management-service.irembo
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - ${EXTRA_HOST}
     ports:
       - "${APP_PORT}:8000"
     volumes:
