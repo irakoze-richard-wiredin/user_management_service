@@ -1,5 +1,5 @@
 """
-WSGI config for user_management_service project.
+WSGI config for user management service project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

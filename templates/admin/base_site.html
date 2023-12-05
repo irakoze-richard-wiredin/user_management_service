@@ -1,0 +1,153 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Account{% endblock %}
+
+{% block page_title %}Account{% endblock %}
+
+{%block account_active %}active{% endblock %}
+
+{% block page_content %}
+
+<div class="card dash-card w-100">
+    <div class="card-body">
+        <div class="d-flex">
+            <h4 class="card-title">{{ user_profile }}</h4>
+            {% if not request.user.is_superuser and user_verification == 'unverified' %}
+            <h4 class="card-title text-default ml-3"><a href="#" data-toggle="modal" data-target="#exampleModal">Verify your account</a></h4>
+            {% elif not request.user.is_superuser and user_verification == 'pending' %}
+            <h4 class="card-title text-default ml-3">You account is undergoing the verification process</h4>
+            {% elif request.user.is_superuser or user_verification == 'verified' %}
+            <h4 class="card-title text-default ml-3">
+                <img src="{% static '/admin/images/Twitter_Verified_Badge.png' %}" alt="Current Profile Photo" class="img-fluid mb-3 col-md-3" style="max-width: 50px; margin-top: -0.6rem;" loading="lazy"data-in-view="">
+            </h4>
+            {% endif %}
+        </div>
+        
+        <form method="post" action="{% url 'account' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row mt-5">
+                <div class="form-group col-md-12">
+                    <div class="row">
+                        <label for="exampleInputUsername1" class="col-md-3">Profile photo</label>
+                        {% if user_profile.photo %}
+                            <img src="{{ user_profile.photo.url }}" alt="Current Profile Photo" class="img-fluid mb-3 col-md-3" style="max-width: 100px;" loading="lazy"data-in-view="">
+                        {% endif %}
+                        <input type="file" class="form-control col-md-3 offset-1" style="border:none;" name="photo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="Doe" {% if user_profile %}value="{{ user_profile.user.username }}"{% endif %} required="true" autofocus="true" disabled>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Email</label>
+                    <input type="email" class="form-control" name="email" placeholder="Doe" {% if user_profile %}value="{{ user_profile.user.email }}"{% endif %} required="true" autofocus="true" disabled>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">First name</label>
+                    <input type="text" class="form-control" name="first_name" placeholder="John" {% if user_profile %}value="{{ user_profile.user.first_name }}"{% endif %} required="true" autofocus="true">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Last name</label>
+                    <input type="text" class="form-control" name="last_name" placeholder="Doe" {% if user_profile %}value="{{ user_profile.user.last_name }}"{% endif %} required="true" autofocus="true">
+                </div>
+            </div>
+
+
+            <div class="row mt-5">
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Gender</label>
+                    <select class="form-control" name="gender" required="true">
+                        <option value="">Select gender</option>
+                        {% for value, label in gender_choices %}
+                            <option value="{{ value }}" {% if value == user_profile.gender %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Date of Birth</label>
+                    <input type="date" class="form-control" name="date_of_birth" placeholder="Doe"
+                           {% if user_profile.date_of_birth %}
+                               value="{{ user_profile.date_of_birth|date:'Y-m-d' }}"
+                           {% endif %}
+                           required="true" autofocus="true">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Marital status</label>
+                    <select class="form-control" name="marital_status" required="true">
+                        <option value="">Select marital status</option>
+                        {% for value, label in marital_status_choices %}
+                            <option value="{{ value }}" {% if value == user_profile.marital_status %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputUsername1">Nationality</label>
+                    <input type="text" class="form-control" name="nationality" placeholder="Doe" {% if user_profile %}value="{{ user_profile.nationality }}"{% endif %} required="true" autofocus="true">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mr-2">Submit changes</button>
+            <button type="reset" class="btn btn-danger">Reset all changes</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form method="post" action="{% url 'account_verification' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Account Verification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="id_nid_passport_number">NID/Passport Number</label>
+                    <input type="text" class="form-control" id="id_nid_passport_number" name="nid_passport_number" value="{{ form.nid_passport_number.value }}">
+                </div>
+                <div class="form-group">
+                    <label for="id_document_image">Document Image</label>
+                    <input type="file" class="form-control" id="id_document_image" name="document_image">
+                    {% if form.document_image.value %}
+                        <img src="{{ form.document_image.url }}" alt="Current Document Image" class="img-fluid mt-3" style="max-width: 200px;">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,5 +1,5 @@
 """
-ASGI config for user_management_service project.
+ASGI config for user management service project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

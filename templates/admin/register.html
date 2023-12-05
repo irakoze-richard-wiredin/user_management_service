@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Login | Irembo</title>
+  <!-- base:css -->
+  <link rel="stylesheet" href="{% static 'admin/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/vendors/base/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'admin/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/css/app.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'admin/images/favicon.png' %}" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+        <div class="row flex-grow">
+          <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <div class="auth-form-transparent text-left p-3 pb-5">
+              <h4>Welcome aboard!</h4>
+
+                <form class="pt-3" action="{% url 'user_registration' %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Name</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend bg-transparent">
+                                        <span class="input-group-text bg-transparent border-right-0">
+                                            <i class="mdi mdi-email-outline text-primary"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg border-left-0" id="exampleInputEmail" name="first_name" placeholder="First name">
+                                </div>
+                                {% if form.errors.first_name %}
+                                    <small class="text-danger">{{ form.errors.first_name.0 }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend bg-transparent">
+                                        <span class="input-group-text bg-transparent border-right-0">
+                                            <i class="mdi mdi-email-outline text-primary"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg border-left-0" id="exampleInputEmail" name="last_name" placeholder="Last name">
+                                </div>
+                                {% if form.errors.last_name %}
+                                    <small class="text-danger">{{ form.errors.last_name.0 }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if form.errors.email %}
+                            <small class="text-danger">{{ form.errors.email.0 }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                                <span class="input-group-text bg-transparent border-right-0">
+                                    <i class="mdi mdi-email-outline text-primary"></i>
+                                </span>
+                            </div>
+                            <input type="email" class="form-control form-control-lg border-left-0" id="exampleInputEmail" name="email" placeholder="Email">
+                        </div>
+                        {% if form.errors.email %}
+                            <small class="text-danger">{{ form.errors.email.0 }}</small>
+                        {% endif %}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="exampleInputUsername">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                                <span class="input-group-text bg-transparent border-right-0">
+                                    <i class="mdi mdi-account-outline text-primary"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg border-left-0" id="exampleInputUsername" name="username" placeholder="Username">
+                        </div>
+                        {% if form.errors.username %}
+                            <small class="text-danger">{{ form.errors.username.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputPassword">Password</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend bg-transparent">
+                          <span class="input-group-text bg-transparent border-right-0">
+                            <i class="mdi mdi-lock-outline text-primary"></i>
+                          </span>
+                        </div>
+                        <input type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" name="password1" placeholder="Password">                        
+                      </div>
+
+                      {% if form.errors.password1 %}
+                          <small class="text-danger">{{ form.errors.password1.0 }}</small>
+                      {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="exampleInputPassword">Confirm Password</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend bg-transparent">
+                            <span class="input-group-text bg-transparent border-right-0">
+                              <i class="mdi mdi-lock-outline text-primary"></i>
+                            </span>
+                          </div>
+                          <input type="password" class="form-control form-control-lg border-left-0" id="exampleInputPassword" name="password2" placeholder="Confirm Password">                        
+                        </div>
+
+                        {% if form.errors.password2 %}
+                            <small class="text-danger">{{ form.errors.password2.0 }}</small>
+                        {% endif %}
+                    </div>
+    
+                    <div class="my-3 d-flex justify-content-between align-items-center">
+                        <a href="/admin/login/" class="auth-link text-black">I already have an account.</a>
+                      <a href="#" class="auth-link text-black">Forgot password?</a>
+                    </div>
+                    <div class="my-4">
+                      <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Register</button>
+                    </div>
+                </form>
+            </div>
+
+            {% comment %} <div class="irembo-logo">
+              <img alt="Watermark" src="{% static 'admin/images/irembo-gov.svg' %}" class="home-section-watermark ng-tns-c235-0"  loading="lazy" height="125" width="120" data-in-view="">
+            </div> {% endcomment %}
+          </div>
+          <div class="col-lg-6 login-half-bg d-flex flex-row">
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- base:js -->
+  <script src="{% static 'admin/vendors/base/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- inject:js -->
+  <script src="{% static 'admin/js/off-canvas.js' %}"></script>
+  <script src="{% static 'admin/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'admin/js/template.js' %}"></script>
+  <!-- endinject -->
+</body>
+
+</html>

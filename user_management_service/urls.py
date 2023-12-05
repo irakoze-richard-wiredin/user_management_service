@@ -1,5 +1,5 @@
 """
-URL configuration for user_management_service project.
+URL configuration for user management service project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -15,8 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
+
+from django.conf import settings
+from django.conf.urls.static import static
+from apps.account import views as accountViews
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', lambda request: redirect('account'), name='redirect_root_to_admin'),
     path('admin/', admin.site.urls),
+    path('accounts/login/', RedirectView.as_view(url='/admin/login/', permanent=True)),
+    path('account/', accountViews.account, name='account'),
+    path('account/verification', accountViews.account_verification, name='account_verification'),
+    path('auth/', include('apps.authentication.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

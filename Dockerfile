@@ -30,5 +30,6 @@ COPY . /app/
 # Wait for the database to be ready before running migrations and starting the server
 CMD sh -c "wait-for-it user-management-service-db.irembo:5432 -- python manage.py makemigrations --noinput && \
            python manage.py migrate --noinput && \
+           python /app/init.py --noinput && \
            python manage.py runserver 0.0.0.0:8000"
 
