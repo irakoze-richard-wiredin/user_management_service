@@ -1,4 +1,3 @@
-# views.py
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from data_models.models import UserProfile, AccountVerification
@@ -14,8 +13,6 @@ def account(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            # Redirect or add success message
-            
             
             messages.success(request, 'Profile updated successfully.')
             return redirect('account')

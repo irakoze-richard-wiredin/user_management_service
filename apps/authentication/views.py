@@ -52,18 +52,14 @@ def password_reset(request):
             user = User.objects.filter(email=email).first()
 
             if user:
-                # Generate a JWT token
                 token_data = {'user_id': user.id}
                 token = jwt.encode(token_data, settings.SECRET_KEY, algorithm='HS256')
 
-                # Encode the user ID
                 uidb64 = urlsafe_base64_encode(force_bytes(user.id))
 
-                # Build the reset link
                 reset_link = reverse('password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token})
                 reset_url = request.build_absolute_uri(reset_link)
 
-                # Send the reset link to the user
                 send_mail(
                     'Password Reset',
                     f'Use the following link to reset your password: {reset_url}',
@@ -89,12 +85,10 @@ def password_reset_confirm(request, uidb64, token):
 
     if user:
         if request.method == 'POST':
-            # Update the password
             password = request.POST.get('new_password')
             user.set_password(password)
             user.save()
 
-            # Log in the user
             auth_user = authenticate(request, username=user.username, password=password)
             login(request, auth_user)
 

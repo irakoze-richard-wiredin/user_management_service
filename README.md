@@ -1,4 +1,4 @@
-# Branding Management System - Admin Portal
+# User Management Service - Irembo
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -12,17 +12,23 @@
 
 ## Overview
 
-This system will streamline and enhance the management of Bralirwa branding assets across our extensive fleet.
+This system will:
+- Ease the on-boarding process of new users.
+- Highly available and performant application to handle 1000’s of requests simultaneously.
+- Store and manage user data at orders of magnitude of scale.
+- Implement best in class security features.
 
 ### Client Information
 
-- **Client Name:** [Bralirwa]
-- **Client Url:** [Bralirwa Website](https://bralirwa.co.rw/)
+- **Client Name:** [Irembo]
 
 ## Features
 
-- Vehicle inspection
-- Billboard inspection
+- Ability to create an account - signup
+- Login and Logout
+- Reset password
+- Update profile
+- Apply for account verification
 
 ## Pre-requirement
 
@@ -33,12 +39,12 @@ This system will streamline and enhance the management of Bralirwa branding asse
 
 ###### Clone the repository
 ```
-git clone https://pj.rexvirt.jp/gitbucket/git/BMS-Bralirwa/Admin-Portal.git
+git clone https://github.com/irakoze-richard-wiredin/user_management_service.git
 ```
 
 ###### Navigate to the project directory
 ```
-cd BMS-Portal
+cd user_management_service
 ```
 
 ###### Set the environment variables
@@ -47,15 +53,7 @@ cp .env-dist .env
 ```
 Make sure to make all the necessary changes in your .env file
 
-###### Install docker container
+###### Build the project container
 ```
 docker-compose up -d --build
-```
-
-###### Run migrations and create super user
-**In docker container bash**
-```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
 ```

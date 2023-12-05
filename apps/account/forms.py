@@ -1,4 +1,3 @@
-# forms.py
 from django import forms
 from data_models.models import UserProfile, AccountVerification
 

@@ -1,4 +1,3 @@
-# create_superuser.py
 import os
 import django
 from decouple import config
