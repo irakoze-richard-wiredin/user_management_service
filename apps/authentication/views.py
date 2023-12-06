@@ -96,7 +96,8 @@ def password_reset_confirm(request, uidb64, token):
             user.save()
 
             messages.success(request, 'Password reset successful.')
-            return redirect('custom_login')
+            login_url = reverse('user_login')
+            return redirect(login_url)
         else:
             return render(request, 'admin/reset_password_form.html', {'uidb64': uidb64, 'token': token})
     else:
