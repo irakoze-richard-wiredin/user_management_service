@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'data_models',
     'apps.authentication',
     'apps.account',
+    'utils',
 ]
 
 MIDDLEWARE = [

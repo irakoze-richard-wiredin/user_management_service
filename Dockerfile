@@ -27,6 +27,17 @@ RUN chmod +x /usr/local/bin/wait-for-it
 # Copy the project files into the container
 COPY . /app/
 
+# Add the management command file
+COPY utils/management/commands/send_mail_command.py /app/utils/management/commands/
+
+# Create a log directory for cron
+RUN mkdir /var/log/cron
+
+# Add cron job to run the management command every minute
+RUN echo "*/1 * * * * /usr/local/bin/python /app/manage.py send_mail_command >> /var/log/cron/send_mail_command.log 2>&1" > /etc/crontabs/root
+RUN echo "*/1 * * * * /usr/local/bin/python /app/manage.py validate_account_command >> /var/log/cron/validate_account_command.log 2>&1" > /etc/crontabs/root
+
+
 # Wait for the database to be ready before running migrations and starting the server
 CMD sh -c "wait-for-it user-management-service-db.irembo:5432 -- python manage.py makemigrations --noinput && \
            python manage.py migrate --noinput && \

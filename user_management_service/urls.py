@@ -30,6 +30,7 @@ urlpatterns = [
     path('account/', accountViews.account, name='account'),
     path('account/verification', accountViews.account_verification, name='account_verification'),
     path('auth/', include('apps.authentication.urls')),
+    path('utils/', include('utils.urls')),
 ]
 
 if settings.DEBUG:

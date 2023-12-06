@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponseBadRequest
@@ -12,7 +11,7 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from data_models.models import UserProfile, AccountVerification
+from data_models.models import UserProfile, AccountVerification, Notifications
 
 
 from .forms import CustomUserCreationForm, CustomPasswordResetForm
@@ -65,14 +64,21 @@ def password_reset(request):
 
                 reset_link = reverse('password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token})
                 reset_url = request.build_absolute_uri(reset_link)
-
-                send_mail(
-                    'Password Reset',
-                    f'Use the following link to reset your password: {reset_url}',
-                    'from@example.com',
-                    [email],
-                    fail_silently=False,
+                
+                Notifications.objects.create(
+                    recipient=email,
+                    status='pending',
+                    subject='Password Reset',
+                    body=f'Use the following link to reset your password: {reset_url}',
                 )
+
+                # send_mail(
+                #     'Password Reset',
+                #     f'Use the following link to reset your password: {reset_url}',
+                #     'from@example.com',
+                #     [email],
+                #     fail_silently=False,
+                # )
 
                 return render(request, 'admin/password_reset_done.html')
             else:

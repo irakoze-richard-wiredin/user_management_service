@@ -110,3 +110,19 @@ class AccountVerification(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Verification"
 
+
+class Notifications(models.Model):
+    STATUS_CHOICES = [
+        ('sent', 'Sent'),
+        ('failed', 'Failed'),
+        ('pending', 'Pending'),
+    ]
+
+    recipient = models.CharField(max_length=250, null=False)
+    subject = models.CharField(max_length=5000, null=True, blank=True)
+    body = models.CharField(max_length=5000, null=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f"{self.recipient}'s notification"
+
