@@ -12,6 +12,8 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+from data_models.models import UserProfile, AccountVerification
+
 
 from .forms import CustomUserCreationForm, CustomPasswordResetForm
 
@@ -36,6 +38,10 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            UserProfile.objects.create(user=user)
+            AccountVerification.objects.create(user=user)
+            
             return redirect('account')
     else:
         form = CustomUserCreationForm()

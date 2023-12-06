@@ -2,3 +2,4 @@ database
 .env
 __pycache__
 uploads
+data_models/migrations
